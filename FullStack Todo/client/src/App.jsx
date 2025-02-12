@@ -4,13 +4,14 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import AllTodos from './Components/AllTodos'
 import CreateTodo from './Components/CreateTodo'
+import {ToastContainer} from 'react-toastify'
 
 function App() {
 
 
   return (
     <>
-    
+    <ToastContainer/>
       <AllTodos/>
       <CreateTodo/>
     </>
