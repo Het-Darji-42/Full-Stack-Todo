@@ -43,4 +43,66 @@ const addTodo = async ( req,res)=>{
     }   
 }
 
-module.exports = {addTodo , allTodo}
+const deleteTodo =async (req , res)=>{
+    try {
+        const {id}= req.params 
+        const todo = await todoModel.findByIdAndDelete(id)
+        if(!todo){
+            return res.status(404).json({
+                mmessage : "todo does not found",
+            })
+        }
+        res.status(200).json({
+            message : "Todo Deleted Successfully",
+            todo : todo 
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message : 'Server Error',
+            error:error
+        })
+    }               
+}
+
+const updateTodo =async (req , res)=>{
+    try {
+        const { task , description} = req.body
+        const { id } = req.params 
+
+        const todo = await todoModel.findByIdAndUpdate(id , { task , description , isCompleted : false} , {new:true , runValidators : true})
+        if(!todo){
+            return res.status(404).json({
+                mmessage : "todo does not found",
+            })
+        }
+        res.status(200).json({
+            message : "Todo Update Successfully",
+            todo : todo 
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message : 'Server Error',
+            error:error
+        })
+    }
+}
+
+const isCompleted = async (req, res)=>{ 
+    try {
+        const { id } = req.params
+        const { isCompleted } = req.body
+        const todo = await todoModel.findByIdAndUpdate(id , { isCompleted } , {new:true , runValidators : true })
+        if(!todo){
+            return res.status(404).json({
+                mmessage : "todo does not found",
+            })
+        }
+        res.status(200).json({
+            message : "Todo Toggled Successfully",
+            todo : todo 
+        })
+    } catch (error) {
+        
+    }
+}
+module.exports = {addTodo , allTodo, deleteTodo , updateTodo , isCompleted}
