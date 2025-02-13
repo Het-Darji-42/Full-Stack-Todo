@@ -12,8 +12,8 @@ function App() {
   return (
     <>
     <ToastContainer/>
-      <AllTodos/>
       <CreateTodo/>
+      <AllTodos/>
     </>
   )
 }

@@ -11,22 +11,24 @@ const CreateTodo = () => {
     reset,
     watch,
     formState: { errors, isLoading },
-  } = useForm()
+  } = useForm({
+    mode : 'onSubmit', 
+  })
 
-  const todohandler =async (data)=>{
+  const todohandler =async (d)=>{
 
     try {
       const Response =await axios.post('http://localhost:3000/api/todo/addTodo' , {
-      task : data.task ,
-      description : data.description, 
+      task : d.task ,
+      description : d.description, 
     })
       toast.success(Response.data.message)
       reset()
       console.log(Response);
       
     } catch (error) {
-      if ( error.Response.data.message) {
-        toast.error(error.Response.data.message);  // Corrected to use error.response
+      if ( error.Response?.data?.message) {
+        toast.error(error.Response?.data?.message);  // Corrected to use error.response
       } else {
         toast.error("An unexpected error occurred");  // Handle unexpected errors
       }
@@ -36,8 +38,6 @@ const CreateTodo = () => {
 
   }
   return (
-
-    
     <div className='sticky top-0 w-screen'>
       <form onSubmit={handleSubmit(todohandler)}>
         <div className='createTodo bg-gray-600 p-4 flex items-center justify-center gap-3 border-b-2 border-white'>
@@ -49,7 +49,9 @@ const CreateTodo = () => {
                    className={ `${errors.task ? "border-red-600": "border-black" } border-2  p-2 rounded text-white font-semibold `}
                    placeholder='ENTER TASK '
                    />
+                
                 {errors.task && <p className='text-red-500 text-sm'>{errors.task.message}</p>}
+                  
             </div>
 
             <div>
