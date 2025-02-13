@@ -3,6 +3,9 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 
 import { useForm } from "react-hook-form"
+import { useTodo } from './Context/TodoContext'
+
+
 
 
 
@@ -17,23 +20,8 @@ const AllTodos = () => {
     formState: { errors  },
   } = useForm()
   
-  const [todos, setTodos] = useState([])
+  const { fetchTodos, todos , setTodos} = useTodo()
 
-  useEffect(() => {
-    fetchTodos()
-  }, [])  
-  
-    const fetchTodos= async ()=>{
-    try {
-        const response = await axios.get('http://localhost:3000/api/todo/allTodo')
-        toast.success(response.data.message)
-        setTodos(response.data.todo)
-        console.log(response);
-        
-      }
-    catch (error) {
-      toast.error(error.response?.data?.message)
-    }}
 
   const deleteTodo =async (id)=>{
     try {

@@ -3,8 +3,10 @@ import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from "react-hook-form"
 import axios from 'axios'
+import { useTodo } from './Context/TodoContext';
 const CreateTodo = () => {
 
+  const {fetchTodos} = useTodo()
   const {
     register,
     handleSubmit,
@@ -25,6 +27,7 @@ const CreateTodo = () => {
       toast.success(Response.data.message)
       reset()
       console.log(Response);
+      fetchTodos()
       
     } catch (error) {
       if ( error.Response?.data?.message) {
